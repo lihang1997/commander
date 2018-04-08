@@ -16,10 +16,22 @@ then
 		endTimestamp=`date +%s`
 	fi
 
+	step=1
+	if (( $3 ))
+	then
+		expr $3 "+" 10 >/dev/null
+		if (( $? == 0 ))
+		then
+			step=$3
+		fi
+	fi
+
+	step=$((step*86400))
+
 	while (( $startTimestamp <= $endTimestamp ))
 	do
 		date -d "@$startTimestamp" +"%Y%m%d"
-		startTimestamp=$((startTimestamp+86400))
+		startTimestamp=$((startTimestamp+step))
 	done
 else
 	echo '开始时间是一个必须参数.';
